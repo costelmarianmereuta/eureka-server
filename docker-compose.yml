@@ -1,0 +1,29 @@
+version: '3'
+services:
+  service-config:
+    image: service-config
+    tty: false
+    ports:
+      - 8888:8888
+  eureka-server:
+    image: eureka-server
+    environment:
+      eureka.client.serviceUrl.defaultZone: http://localhost:8761/eureka/
+    tty: false
+    ports:
+      - 8761:8761
+  zuul:
+    image: api-gateway
+    environment:
+      eureka.client.serviceUrl.defaultZone: http://localhost:8761/eureka/
+    tty: false
+    ports:
+      - 8080:8080
+
+  hello-world:
+    image: hello-world
+    environment:
+      eureka.client.serviceUrl.defaultZone: http://localhost:8761/eureka/
+    tty: false
+    ports:
+      - 8081:8081

@@ -1,0 +1,27 @@
+version: '3'
+services:
+  cloud-config:
+    build:
+      context: ./cloud-config/
+    image: cloud-config
+    tty: false
+    ports:
+      - 8888:8888
+  eureka-server:
+    build:
+      context: ./eureka-server/
+    image: eureka-server
+    environment:
+      eureka.client.serviceUrl.defaultZone: http://localhost:8761/eureka/
+    tty: false
+    ports:
+      - 8761:8761
+  zuul:
+    build:
+      context: ./api-gateway/
+    image: api-gateway
+    environment:
+      eureka.client.serviceUrl.defaultZone: http://localhost:8761/eureka/
+    tty: false
+    ports:
+      - 8080:8080
